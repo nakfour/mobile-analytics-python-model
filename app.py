@@ -44,4 +44,6 @@ def assign_tod(hr):
 
 
 print("Start")
-
+spark = SparkSession.builder.appName("mobileanalytics").getOrCreate()
+print("Started Spark")
+spark.stop()
