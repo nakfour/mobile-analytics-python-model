@@ -13,6 +13,7 @@ from pyspark.ml import Pipeline
 from pyspark.ml.regression import RandomForestRegressor
 from pyspark.ml.evaluation import RegressionEvaluator
 from pyspark.ml.regression import GeneralizedLinearRegression,LinearRegression
+from flask import Flask, request, jsonify, render_template
 
 #master="spark://172.17.0.10:7077"
 #master="spark://test-ui-route-myproject.173.230.141.17.xip.io:7077"
@@ -47,3 +48,20 @@ print("Start")
 spark = SparkSession.builder.appName("mobileanalytics").getOrCreate()
 print("Started Spark")
 spark.stop()
+
+################### app Web Server #####################
+app = Flask(__name__)
+
+@app.route("/")
+def mainRoute():
+    print("Serving /")
+    return null
+
+@app.route("/data")
+def dataRoute():
+    print("Serving data")
+    return null
+
+
+print("HTTP Server started")
+app.run(host='0.0.0.0', port=8080)
