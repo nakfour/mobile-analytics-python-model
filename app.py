@@ -14,6 +14,7 @@ from pyspark.ml.regression import RandomForestRegressor
 from pyspark.ml.evaluation import RegressionEvaluator
 from pyspark.ml.regression import GeneralizedLinearRegression,LinearRegression
 from flask import Flask, request, jsonify, render_template
+from pymongo import MongoClient
 
 #master="spark://172.17.0.10:7077"
 #master="spark://test-ui-route-myproject.173.230.141.17.xip.io:7077"
@@ -49,6 +50,9 @@ spark = SparkSession.builder.appName("mobileanalytics").getOrCreate()
 print("Started Spark")
 spark.stop()
 
+######################
+mongoClient = MongoClient('mongodb://admin:admin@mongodb/sampledb')
+
 ################### app Web Server #####################
 app = Flask(__name__)
 
@@ -57,11 +61,20 @@ def mainRoute():
     print("Serving /")
     return null
 
-@app.route("/data")
+@app.route("/getdata")
 def dataRoute():
     print("Serving data")
     return null
 
-
+@app.route("/traindata")
+def trainRoute():
+    print("Training data")
+    # Read Data from database
+    #mongoClient = MongoClient('mongodb://admin:admin@mongodb/sampledb')
+    # run learning on apache spark
+    
+    return null
+    
+    
 print("HTTP Server started")
 app.run(host='0.0.0.0', port=8080)
