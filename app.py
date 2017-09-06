@@ -47,16 +47,18 @@ def assign_tod(hr):
 
 
 print("Start")
-spark = SparkSession.builder.appName("mobileanalytics").getOrCreate()
+spark = SparkSession.builder.appName("mobileanalytics").config("spark.mongodb.input.uri", "mongodb://admin:admin@mongodb/sampledb.bikerentalmembership").config("spark.mongodb.output.uri", "mongodb://admin:admin@mongodb/sampledb.bikerentalmembership").getOrCreate()
 print("Started Spark")
+df = spark.read.format("com.mongodb.spark.sql.DefaultSource").load()
+df.printSchema()
 spark.stop()
 
 ######################
-mongoClient = MongoClient('mongodb://admin:admin@mongodb')
-db= mongoClient.sampledb
-collection=db.bikerentalmembership
-for rental in collection.find():
-    pprint.pprint(rental)
+#mongoClient = MongoClient('mongodb://admin:admin@mongodb')
+#db= mongoClient.sampledb
+#collection=db.bikerentalmembership
+#for rental in collection.find():
+ #   pprint.pprint(rental)
 
 ################### app Web Server #####################
 app = Flask(__name__)
