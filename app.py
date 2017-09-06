@@ -15,6 +15,7 @@ from pyspark.ml.evaluation import RegressionEvaluator
 from pyspark.ml.regression import GeneralizedLinearRegression,LinearRegression
 from flask import Flask, request, jsonify, render_template
 from pymongo import MongoClient
+import pprint
 
 #master="spark://172.17.0.10:7077"
 #master="spark://test-ui-route-myproject.173.230.141.17.xip.io:7077"
@@ -51,7 +52,11 @@ print("Started Spark")
 spark.stop()
 
 ######################
-mongoClient = MongoClient('mongodb://admin:admin@mongodb/sampledb')
+mongoClient = MongoClient('mongodb://admin:admin@mongodb')
+db= mongoClient.sampledb
+collection=db.bikerentalmembership
+for rental in collection.find():
+    pprint.pprint(rental)
 
 ################### app Web Server #####################
 app = Flask(__name__)
