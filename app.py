@@ -51,7 +51,7 @@ spark = SparkSession.builder.appName("mobileanalytics").config("spark.mongodb.in
 print("Started Spark")
 df = spark.read.format("com.mongodb.spark.sql.DefaultSource").load()
 df.printSchema()
-spark.stop()
+#spark.stop()
 
 ######################
 #mongoClient = MongoClient('mongodb://admin:admin@mongodb')
