@@ -47,9 +47,10 @@ def assign_tod(hr):
 
 
 print("Start")
-spark = SparkSession.builder.appName("mobileanalytics").config("spark.mongodb.input.uri", "mongodb://admin:admin@mongodb/sampledb.bikerentalmembership").config("spark.mongodb.output.uri", "mongodb://admin:admin@mongodb/sampledb.bikerentalmembership").getOrCreate()
+spark = SparkSession.builder.appName("mobileanalytics").config("spark.mongodb.input.uri", "mongodb://admin:admin@mongodb/sampledb.bikerental").config("spark.mongodb.output.uri", "mongodb://admin:admin@mongodb/sampledb.bikerental").getOrCreate()
 print("Started Spark")
 df = spark.read.format("com.mongodb.spark.sql.DefaultSource").load()
+print("posting df")
 df.printSchema()
 #spark.stop()
 
