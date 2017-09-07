@@ -52,6 +52,7 @@ print("Started Spark")
 df = spark.read.format("com.mongodb.spark.sql.DefaultSource").load()
 print("posting df")
 df.printSchema()
+print(df.show())
 #spark.stop()
 
 ######################
