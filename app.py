@@ -53,6 +53,50 @@ df = spark.read.format("com.mongodb.spark.sql.DefaultSource").load()
 print("posting df")
 df.printSchema()
 print(df.show())
+# Create a model to predict timeofday bike rental count. 
+# Morning, lunch , afternoon, evening
+def assign_tod(hr):
+    #print(hr)
+    times_of_day = {
+    #'morning' : range(0,12),
+    0 : range(0,12),
+    #'lunch': range(12,14),
+    1: range(12,14),
+    #'afternoon': range(14,18),
+    2: range(14,18),
+    #'evening': range (18,20),
+    3: range (18,20),
+    #'night': range(20,24)
+    4: range(20,24)
+    }
+    for k, v in times_of_day.iteritems():
+        if hr in v:
+            #print k
+            return k
+
+
+#Convert starttime from string to timestamp
+#'yyyy-MM-dd HH:mm:ss'
+typedbikerentaldf= df.select(unix_timestamp(fullbikerentaldf.starttime).cast('timestamp').alias('starttimehour'),\
+    'start station id')\
+    .cache()
+# we only need the hour to put rentals in buckets of morning, lunch, afternoon, evening by station id
+typedbikerentaldfhour= typedbikerentaldf.select(hour('starttimehour').alias('starttimehour'),\
+    'start station id')\
+    .cache()
+print(typedbikerentaldfhour.show())
+typedbikerentaldfhour.printSchema()
+
+#create a function to return the integer value of the time of day
+func_udf = udf(assign_tod, IntegerType())
+dfbuckets = typedbikerentaldf2.withColumn('daypart',func_udf(typedbikerentaldfhour['starttimehour']))
+
+df3=dfdfbuckets.groupBy("daypart", "start station id").agg(count("*"))
+df3=df3.withColumn("start station id", df["start station id"].cast("integer"))
+df3 = df3.select(col("daypart").alias("daypart"),col("start station id").alias("start station id"),col("count(1)").alias("rentalcount"))
+
+print(df3.show())
+df3.printSchema()
 #spark.stop()
 
 ######################
