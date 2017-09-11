@@ -89,7 +89,7 @@ typedbikerentaldfhour.printSchema()
 
 #create a function to return the integer value of the time of day
 func_udf = udf(assign_tod, IntegerType())
-dfbuckets = typedbikerentaldf2.withColumn('daypart',func_udf(typedbikerentaldfhour['starttimehour']))
+dfbuckets = typedbikerentaldfhour.withColumn('daypart',func_udf(typedbikerentaldfhour['starttimehour']))
 
 df3=dfdfbuckets.groupBy("daypart", "startstationid").agg(count("*"))
 df3=df3.withColumn("startstationid", dfbuckets["startstationid"].cast("integer"))
