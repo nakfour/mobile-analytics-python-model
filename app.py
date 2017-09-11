@@ -91,7 +91,7 @@ typedbikerentaldfhour.printSchema()
 func_udf = udf(assign_tod, IntegerType())
 dfbuckets = typedbikerentaldfhour.withColumn('daypart',func_udf(typedbikerentaldfhour['starttimehour']))
 
-df3=dfdfbuckets.groupBy("daypart", "startstationid").agg(count("*"))
+df3=dfbuckets.groupBy("daypart", "startstationid").agg(count("*"))
 df3=df3.withColumn("startstationid", dfbuckets["startstationid"].cast("integer"))
 df3 = df3.select(col("daypart").alias("daypart"),col("startstationid").alias("startstationid"),col("count(1)").alias("rentalcount"))
 
