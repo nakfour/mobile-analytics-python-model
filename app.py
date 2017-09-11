@@ -78,11 +78,11 @@ def assign_tod(hr):
 #Convert starttime from string to timestamp
 #'yyyy-MM-dd HH:mm:ss'
 typedbikerentaldf= df.select(unix_timestamp(df.starttime).cast('timestamp').alias('starttimehour'),\
-    'start station id')\
+    'startstationid')\
     .cache()
 # we only need the hour to put rentals in buckets of morning, lunch, afternoon, evening by station id
 typedbikerentaldfhour= typedbikerentaldf.select(hour('starttimehour').alias('starttimehour'),\
-    'start station id')\
+    'startstationid')\
     .cache()
 print(typedbikerentaldfhour.show())
 typedbikerentaldfhour.printSchema()
@@ -91,9 +91,9 @@ typedbikerentaldfhour.printSchema()
 func_udf = udf(assign_tod, IntegerType())
 dfbuckets = typedbikerentaldf2.withColumn('daypart',func_udf(typedbikerentaldfhour['starttimehour']))
 
-df3=dfdfbuckets.groupBy("daypart", "start station id").agg(count("*"))
-df3=df3.withColumn("start station id", df["start station id"].cast("integer"))
-df3 = df3.select(col("daypart").alias("daypart"),col("start station id").alias("start station id"),col("count(1)").alias("rentalcount"))
+df3=dfdfbuckets.groupBy("daypart", "startstationid").agg(count("*"))
+df3=df3.withColumn("startstationid", dfbuckets["startstationid"].cast("integer"))
+df3 = df3.select(col("daypart").alias("daypart"),col("startstationid").alias("startstationid"),col("count(1)").alias("rentalcount"))
 
 print(df3.show())
 df3.printSchema()
