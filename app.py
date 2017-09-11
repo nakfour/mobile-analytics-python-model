@@ -77,7 +77,7 @@ def assign_tod(hr):
 
 #Convert starttime from string to timestamp
 #'yyyy-MM-dd HH:mm:ss'
-typedbikerentaldf= df.select(unix_timestamp(fullbikerentaldf.starttime).cast('timestamp').alias('starttimehour'),\
+typedbikerentaldf= df.select(unix_timestamp(df.starttime).cast('timestamp').alias('starttimehour'),\
     'start station id')\
     .cache()
 # we only need the hour to put rentals in buckets of morning, lunch, afternoon, evening by station id
