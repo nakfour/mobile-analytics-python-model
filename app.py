@@ -1,5 +1,3 @@
-import os
-os.environ['PYSPARK_SUBMIT_ARGS'] = '--packages org.mongodb.spark:mongo-spark-connector_2.11:2.2.0 pyspark-shell'
 
 from pyspark import SparkConf
 from pyspark import SparkContext
@@ -21,15 +19,6 @@ from pymongo import MongoClient
 import pprint
 
 
-#master="spark://172.17.0.10:7077"
-#master="spark://test-ui-route-myproject.173.230.141.17.xip.io:7077"
-#master="local[*]"
-#sconf = SparkConf().setAppName("ophicleide-worker").setMaster(master)
-#to get rid of the warning
-# multiple sparkContext
-#sconf.set("spark.driver.allowMultipleContexts","true")
-#spark = SparkContext(conf=sconf)
-os.environ['PYSPARK_SUBMIT_ARGS'] = '--packages org.mongodb.spark:mongo-spark-connector_2.11:2.1.0 pyspark-shell'
 
 def assign_tod(hr):
     #print(hr)
@@ -53,9 +42,9 @@ def assign_tod(hr):
  
 print("Start")
 #on openshift
-#spark = SparkSession.builder.appName("mobileanalytics").config("spark.mongodb.input.uri", "mongodb://admin:admin@mongodb/sampledb.bikerental").config("spark.mongodb.output.uri", "mongodb://admin:admin@mongodb/sampledb.bikerental").getOrCreate()
+spark = SparkSession.builder.appName("mobileanalytics").config("spark.mongodb.input.uri", "mongodb://admin:admin@mongodb/sampledb.bikerental").config("spark.mongodb.output.uri", "mongodb://admin:admin@mongodb/sampledb.bikerental").getOrCreate()
 #local
-spark = SparkSession.builder.master("local").appName("mobileanalytics").config("spark.driver.bindAddress", "127.0.0.1").config("spark.mongodb.input.uri", "mongodb://127.0.0.1/sampledb.bikerental").config("spark.mongodb.output.uri", "mongodb://127.0.0.1/sampledb.bikerental").getOrCreate()
+#spark = SparkSession.builder.master("local").appName("mobileanalytics").config("spark.driver.bindAddress", "127.0.0.1").config("spark.mongodb.input.uri", "mongodb://127.0.0.1/sampledb.bikerental").config("spark.mongodb.output.uri", "mongodb://127.0.0.1/sampledb.bikerental").getOrCreate()
 
 
 print("Started Spark")
