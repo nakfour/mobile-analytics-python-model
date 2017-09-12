@@ -97,6 +97,8 @@ df3 = df3.select(col("daypart").alias("daypart"),col("startstationid").alias("st
 
 print(df3.show())
 df3.printSchema()
+print("Number of rows")
+df3.count()
 #spark.stop()
 
 ######################
@@ -114,9 +116,15 @@ def mainRoute():
     print("Serving /")
     return render_template("index.html")
 
-@app.route("/getStationStats")
+@app.route("/getstationstats")
 def dataRoute():
-    print("Serving data")
+    print("Serving Station Stats data")
+    ########################### Testing toJOSON ###############
+    #test=fullbikerentaldf.limit(10)
+    #print("Printing TEST")
+    #print(test.show())
+    #resultlist=test.toJSON().collect()
+    #print(resultlist)
     return null
 
 @app.route("/traindata")
