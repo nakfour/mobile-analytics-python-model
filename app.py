@@ -112,9 +112,9 @@ app = Flask(__name__)
 @app.route("/")
 def mainRoute():
     print("Serving /")
-    return null
+    return render_template("index.html")
 
-@app.route("/getdata")
+@app.route("/getStationStats")
 def dataRoute():
     print("Serving data")
     return null
