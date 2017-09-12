@@ -98,7 +98,7 @@ df3 = df3.select(col("daypart").alias("daypart"),col("startstationid").alias("st
 print(df3.show())
 df3.printSchema()
 print("Number of rows")
-df3.count()
+print(df3.count())
 #spark.stop()
 
 ######################
