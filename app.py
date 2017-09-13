@@ -100,11 +100,13 @@ print("Number of rows")
 #print(df3.count())
 
 #group by daypart
-df3=df3.groupBy("daypart").agg(count("*"))
+#df3=df3.groupBy("daypart").agg(count("*"))
+#print(df3.show())
+#df3.printSchema()
+#print("Number of rows")
+df3.orderBy("startstationid","count")
 print(df3.show())
 df3.printSchema()
-print("Number of rows")
-df3.count().orderBy("startstationid","count").show()
 #spark.stop()
 
 ######################
