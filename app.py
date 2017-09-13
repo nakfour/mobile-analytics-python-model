@@ -104,7 +104,7 @@ print("Number of rows")
 #print(df3.show())
 #df3.printSchema()
 #print("Number of rows")
-df3.orderBy(df3.startstationid.desc())
+df3=df3.orderBy(df3.startstationid.desc())
 
 print(df3.show())
 df3.printSchema()
