@@ -15,6 +15,7 @@ from pyspark.ml.regression import RandomForestRegressor
 from pyspark.ml.evaluation import RegressionEvaluator
 from pyspark.ml.regression import GeneralizedLinearRegression,LinearRegression
 from flask import Flask, request, jsonify, render_template
+from flask_cors import CORS
 from pymongo import MongoClient
 import pprint
 
@@ -24,20 +25,22 @@ def assign_tod(hr):
     #print(hr)
     times_of_day = {
     #'morning' : range(0,12),
-    0 : range(0,12),
+    'morning' : range(0,12),
     #'lunch': range(12,14),
-    1: range(12,14),
+    'lunch': range(12,14),
     #'afternoon': range(14,18),
-    2: range(14,18),
+    'afternoon': range(14,18),
     #'evening': range (18,20),
-    3: range (18,20),
+    'evening': range (18,20),
     #'night': range(20,24)
-    4: range(20,24)
+    'night': range(20,24)
     }
     for k, v in times_of_day.iteritems():
         if hr in v:
             #print k
             return k
+
+ 
 
  
 print("Start")
@@ -52,26 +55,6 @@ df = spark.read.format("com.mongodb.spark.sql.DefaultSource").load()
 print("posting df")
 df.printSchema()
 print(df.show())
-# Create a model to predict timeofday bike rental count. 
-# Morning, lunch , afternoon, evening
-def assign_tod(hr):
-    #print(hr)
-    times_of_day = {
-    #'morning' : range(0,12),
-    0 : range(0,12),
-    #'lunch': range(12,14),
-    1: range(12,14),
-    #'afternoon': range(14,18),
-    2: range(14,18),
-    #'evening': range (18,20),
-    3: range (18,20),
-    #'night': range(20,24)
-    4: range(20,24)
-    }
-    for k, v in times_of_day.iteritems():
-        if hr in v:
-            #print k
-            return k
 
 
 #Convert starttime from string to timestamp
@@ -110,6 +93,14 @@ print(df3.show())
 df3.printSchema()
 #spark.stop()
 
+###################### Getting mobileos stats #######################
+
+
+mobiledata = df.select(col("mobileos").alias("mobileos"))
+mobiledata=mobiledata.groupBy("mobileos").agg(count("*"))
+mobiledata = mobiledata.select(col("mobileos").alias("mobileos"),col("count(1)").alias("mobileoscount"))
+print (mobiledata.show())
+    
 ######################
 #mongoClient = MongoClient('mongodb://admin:admin@mongodb')
 #db= mongoClient.sampledb
@@ -119,6 +110,7 @@ df3.printSchema()
 
 ################### app Web Server #####################
 app = Flask(__name__)
+CORS(app)
 
 @app.route("/")
 def mainRoute():
@@ -129,13 +121,30 @@ def mainRoute():
 def dataRoute():
     print("Serving Station Stats data")
     ########################### Testing toJOSON ###############
-    #test=fullbikerentaldf.limit(10)
-    #print("Printing TEST")
-    #print(test.show())
-    #resultlist=test.toJSON().collect()
-    #print(resultlist)
-    return null
+    #test=fullbikerentaldf.limit(1)
+    test=dfbuckets.groupBy("daypart").count()
+    print("Printing group by daypart")
+    print(test.show())
+    resultlist=test.toJSON().collect()
+    print(resultlist)
+    json_results = json.dumps(resultlist)
+    #json_results = json.dumps(test, default=json_util.default)
+    print(json_results)
+    return json_results
 
+@app.route("/getmobileosstats")
+def mobiledataRoute():
+    print("Serving Mobile OS")
+    ########################### Testing toJOSON ###############
+    #test=fullbikerentaldf.limit(1)
+    resultlist=mobiledata.toJSON().collect()
+    print(resultlist)
+    json_results = json.dumps(resultlist)
+    #json_results = json.dumps(test, default=json_util.default)
+    print(json_results)
+    return json_results
+    
+    
 @app.route("/traindata")
 def trainRoute():
     print("Training data")
@@ -148,3 +157,6 @@ def trainRoute():
     
 print("HTTP Server started")
 app.run(host='0.0.0.0', port=8080)
+
+
+#spark.stop()
