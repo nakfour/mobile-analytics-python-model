@@ -59,7 +59,7 @@ console.log("Starting queue")
   
 
 d3.queue()
-  .defer(d3.json, "http://localhost:8080/getstationstats")
+  .defer(d3.json, "http://inserturl/getstationstats")
   .defer(d3.json, "http://localhost:8080/getmobileosstats")
   .await(analyze);
 
