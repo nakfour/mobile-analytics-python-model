@@ -47,7 +47,7 @@
  }
 }*/
 console.log("Starting queue")
-d3.queue()
+/*d3.queue()
   .defer(d3.json, "http://localhost:8080/getstationstats")
   .defer(d3.json, "http://localhost:8080/getmobileosstats")
   // COR is not enabled by default on 3scale so making the server and not the broswer perform the GET request
@@ -55,8 +55,14 @@ d3.queue()
   .defer(d3.json, "http://localhost:8080/gethits")
   //.defer(d3.json, "inserturl&metric_name=poststartrental&since=2017-07-01&period=year&granularity=month&skip_change=true")
   //.defer(d3.json, "inserturl&metric_name=poststoprental&since=2017-07-01&period=year&granularity=month&skip_change=true")
-  .await(analyze);
+  .await(analyze);*/
   
+
+d3.queue()
+  .defer(d3.json, "http://localhost:8080/getstationstats")
+  .defer(d3.json, "http://localhost:8080/getmobileosstats")
+  .defer(d3.json, "http://localhost:8080/gethits")
+  .await(analyze);
 
 //d3.json("http://localhost:8080/getstationstats", function(data) {
 function analyze(error, stationdata, mobiledata, scaledata, poststartrental, poststoprental) {
