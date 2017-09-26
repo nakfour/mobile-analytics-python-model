@@ -59,7 +59,7 @@ console.log("Starting queue")
   
 
 d3.queue()
-  .defer(d3.json, "http://localhost:8080/getstationstats")
+  .defer(d3.json, "http://127.0.0.1:8080/getstationstats")
   .defer(d3.json, "http://python-analytics-myproject.173.230.141.17.xip.io/getmobileosstats")
   .defer(d3.json, "http://python-analytics-myproject.173.230.141.17.xip.io/gethits")
   .await(analyze);
