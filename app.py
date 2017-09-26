@@ -148,7 +148,16 @@ def mobiledataRoute():
     return json_results
     
 
-
+#.defer(d3.json, "https://nakfour-admin.3scale.net/stats/applications/1409615589398/usage.json?access_token=99f0d9bfef10344295423f3d1666d7249b3753ed0ed5cd083e22b702c12777f7&metric_name=hits&since=2017-07-01&period=year&granularity=month&skip_change=true")  
+# had to do it this way because CORS is not enabled by s-scale by default
+@app.route("/gethits")
+def hitsRoute():
+    print("Getting 3-scale hits")
+    response=requests.get("https://nakfour-admin.3scale.net/stats/applications/1409615589398/usage.json?access_token=99f0d9bfef10344295423f3d1666d7249b3753ed0ed5cd083e22b702c12777f7&metric_name=hits&since=2017-07-01&period=year&granularity=month&skip_change=true")
+    print(response.status_code)
+    print(response.headers)
+    print(response.content)
+    return (response.content)  
 
 @app.route("/traindata")
 def trainRoute():
