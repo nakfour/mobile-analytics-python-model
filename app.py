@@ -112,7 +112,7 @@ print (mobiledata.show())
 ################### app Web Server #####################
 app = Flask(__name__)
 #CORS(app)
-CORS(app, resources=r'/*', headers='Content-Type')
+#CORS(app, resources=r'/*', headers='Content-Type')
 
 @app.route("/")
 def mainRoute():
