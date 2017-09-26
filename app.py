@@ -159,6 +159,25 @@ def hitsRoute():
     print(response.content)
     return (response.content)  
 
+@app.route("/getpoststartrental")
+def startRentalRoute():
+    print("Getting 3-scale startrental")
+    response=requests.get("inserturl&metric_name=poststartrental&since=2017-07-01&period=year&granularity=month&skip_change=true")
+    print(response.status_code)
+    print(response.headers)
+    print(response.content)
+    return (response.content) 
+
+@app.route("/getpoststoprental")
+def stopRentalRoute():
+    print("Getting 3-scale stoprental")
+    response=requests.get("inserturl&metric_name=poststoprental&since=2017-07-01&period=year&granularity=month&skip_change=true")
+    print(response.status_code)
+    print(response.headers)
+    print(response.content)
+    return (response.content) 
+    
+
 @app.route("/traindata")
 def trainRoute():
     print("Training data")
