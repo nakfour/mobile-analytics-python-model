@@ -50,9 +50,11 @@ console.log("Starting queue")
 d3.queue()
   .defer(d3.json, "http://localhost:8080/getstationstats")
   .defer(d3.json, "http://localhost:8080/getmobileosstats")
-  .defer(d3.json, "inserturl&metric_name=hits&since=2017-07-01&period=year&granularity=month&skip_change=true")
-  .defer(d3.json, "inserturl&metric_name=poststartrental&since=2017-07-01&period=year&granularity=month&skip_change=true")
-  .defer(d3.json, "inserturl&metric_name=poststoprental&since=2017-07-01&period=year&granularity=month&skip_change=true")
+  // COR is not enabled by default on 3scale so making the server and not the broswer perform the GET request
+  //.defer(d3.json, "inserturl&metric_name=hits&since=2017-07-01&period=year&granularity=month&skip_change=true")
+  .defer(d3.json, "http://localhost:8080/gethits")
+  //.defer(d3.json, "inserturl&metric_name=poststartrental&since=2017-07-01&period=year&granularity=month&skip_change=true")
+  //.defer(d3.json, "inserturl&metric_name=poststoprental&since=2017-07-01&period=year&granularity=month&skip_change=true")
   .await(analyze);
   
 
