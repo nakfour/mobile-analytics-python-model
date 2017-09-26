@@ -82,7 +82,7 @@ def getDayStats():
     resultlist=test.toJSON().collect()
     return resultlist
     
-def getMobielOsStats():
+def getMobileOsStats():
     print("Getting Day stats")
     df = spark.read.format("com.mongodb.spark.sql.DefaultSource").load()
     print("posting df")
