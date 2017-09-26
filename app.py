@@ -159,6 +159,25 @@ def hitsRoute():
     print(response.content)
     return (response.content)  
 
+@app.route("/getpoststartrental")
+def startRentalRoute():
+    print("Getting 3-scale startrental")
+    response=requests.get("https://nakfour-admin.3scale.net/stats/applications/1409615589398/usage.json?access_token=99f0d9bfef10344295423f3d1666d7249b3753ed0ed5cd083e22b702c12777f7&metric_name=poststartrental&since=2017-07-01&period=year&granularity=month&skip_change=true")
+    print(response.status_code)
+    print(response.headers)
+    print(response.content)
+    return (response.content) 
+
+@app.route("/getpoststoprental")
+def stopRentalRoute():
+    print("Getting 3-scale stoprental")
+    response=requests.get("https://nakfour-admin.3scale.net/stats/applications/1409615589398/usage.json?access_token=99f0d9bfef10344295423f3d1666d7249b3753ed0ed5cd083e22b702c12777f7&metric_name=poststoprental&since=2017-07-01&period=year&granularity=month&skip_change=true")
+    print(response.status_code)
+    print(response.headers)
+    print(response.content)
+    return (response.content) 
+    
+
 @app.route("/traindata")
 def trainRoute():
     print("Training data")

@@ -57,11 +57,13 @@ console.log("Starting queue")
   //.defer(d3.json, "https://nakfour-admin.3scale.net/stats/applications/1409615589398/usage.json?access_token=99f0d9bfef10344295423f3d1666d7249b3753ed0ed5cd083e22b702c12777f7&metric_name=poststoprental&since=2017-07-01&period=year&granularity=month&skip_change=true")
   .await(analyze);*/
   
-
+// In production these urls should be the production DNS name
 d3.queue()
-  .defer(d3.json, "http://127.0.0.1:8080/getstationstats")
+  .defer(d3.json, "http://inserturl/getstationstats")
   .defer(d3.json, "http://inserturl/getmobileosstats")
   .defer(d3.json, "http://inserturl/gethits")
+  .defer(d3.json, "http://inserturl/getpoststartrental")
+  .defer(d3.json, "http://inserturl/getpoststoprental")
   .await(analyze);
 
 //d3.json("http://localhost:8080/getstationstats", function(data) {
