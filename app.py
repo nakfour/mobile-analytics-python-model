@@ -146,16 +146,6 @@ def mobiledataRoute():
     print(json_results)
     return json_results
     
-#.defer(d3.json, "inserturl&metric_name=hits&since=2017-07-01&period=year&granularity=month&skip_change=true")  
-# had to do it this way because CORS is not enabled by s-scale by default
-@app.route("/gethits")
-def hitsRoute():
-    print("Getting 3-scale hits")
-    response=requests.get("inserturl&metric_name=hits&since=2017-07-01&period=year&granularity=month&skip_change=true")
-    print(response.status_code)
-    print(response.headers)
-    print(response.content)
-    return (response.content)
 
 
 
