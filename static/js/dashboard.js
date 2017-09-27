@@ -47,15 +47,7 @@
  }
 }*/
 console.log("Starting queue")
-/*d3.queue()
-  .defer(d3.json, "http://localhost:8080/getstationstats")
-  .defer(d3.json, "http://localhost:8080/getmobileosstats")
-  // COR is not enabled by default on 3scale so making the server and not the broswer perform the GET request
-  //.defer(d3.json, "https://nakfour-admin.3scale.net/stats/applications/1409615589398/usage.json?access_token=99f0d9bfef10344295423f3d1666d7249b3753ed0ed5cd083e22b702c12777f7&metric_name=hits&since=2017-07-01&period=year&granularity=month&skip_change=true")
-  .defer(d3.json, "http://localhost:8080/gethits")
-  //.defer(d3.json, "https://nakfour-admin.3scale.net/stats/applications/1409615589398/usage.json?access_token=99f0d9bfef10344295423f3d1666d7249b3753ed0ed5cd083e22b702c12777f7&metric_name=poststartrental&since=2017-07-01&period=year&granularity=month&skip_change=true")
-  //.defer(d3.json, "https://nakfour-admin.3scale.net/stats/applications/1409615589398/usage.json?access_token=99f0d9bfef10344295423f3d1666d7249b3753ed0ed5cd083e22b702c12777f7&metric_name=poststoprental&since=2017-07-01&period=year&granularity=month&skip_change=true")
-  .await(analyze);*/
+
   
 // In production these urls should be the production DNS name
 d3.queue()
@@ -88,6 +80,10 @@ function analyze(error, stationdata, mobiledata, scaledata, poststartrental, pos
     //console.log(dataTes)
     var chart = c3.generate({
         bindto: '#stationdatachart',
+        size: {
+        height: 200,
+        width: 340
+        },
         data: {
             json: stationdata,
             keys: {
@@ -119,6 +115,10 @@ function analyze(error, stationdata, mobiledata, scaledata, poststartrental, pos
     
     var chart2 = c3.generate({
         bindto: '#mobileosdatachart',
+        size: {
+        height: 115,
+        width: 360
+        },
         data: {
             //json: mobiledata,
             json: [count],
@@ -151,6 +151,10 @@ function analyze(error, stationdata, mobiledata, scaledata, poststartrental, pos
 
 var chart = c3.generate({
     bindto: '#scalechart',
+    size: {
+        height: 160,
+        width: 600
+    },
     data: {
         x: 'x',
 //        xFormat: '%Y%m%d', // 'xFormat' can be used as custom format of 'x'
