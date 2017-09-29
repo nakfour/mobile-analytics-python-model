@@ -116,7 +116,7 @@ function analyze(error, stationdata, mobiledata, scaledata, poststartrental, pos
     var chart2 = c3.generate({
         bindto: '#mobileosdatachart',
         size: {
-        height: 115,
+        height: 300,
         width: 360
         },
         data: {
