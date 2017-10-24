@@ -47,7 +47,22 @@
  }
 }*/
 console.log("Starting queue")
+// making sure spinner for map data is off
+console.log("Stopping map loader");
+document.getElementById("maploader").style.display = "none";
+// Start page loader
+document.getElementById("pageloader").style.display = "block";
 
+var map = L.map('map').setView([40.75323098,-73.97032517], 10);
+var mapLink = '<a href="http://openstreetmap.org">OpenStreetMap</a>';
+        L.tileLayer(
+            'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; ' + mapLink + ' Contributors',
+            maxZoom: 18,
+        }).addTo(map);
+var heatNew = null;
+        
+        
   
 // In production these urls should be the production DNS name
 d3.queue()
@@ -56,10 +71,13 @@ d3.queue()
   .defer(d3.json, "http://python-analytics-myproject.173.230.141.17.xip.io/gethits")
   .defer(d3.json, "http://python-analytics-myproject.173.230.141.17.xip.io/getpoststartrental")
   .defer(d3.json, "http://python-analytics-myproject.173.230.141.17.xip.io/getpoststoprental")
+  .defer(d3.json, "http://python-analytics-myproject.173.230.141.17.xip.io/getstationdaytime")
   .await(analyze);
 
 //d3.json("http://localhost:8080/getstationstats", function(data) {
-function analyze(error, stationdata, mobiledata, scaledata, poststartrental, poststoprental) {
+function analyze(error, stationdata, mobiledata, scaledata, poststartrental, poststoprental,stationdaytime) {
+    //stopping page loader
+    document.getElementById("pageloader").style.display = "none";
     if(error) { 
         console.log(error); 
     }
@@ -68,12 +86,30 @@ function analyze(error, stationdata, mobiledata, scaledata, poststartrental, pos
     console.log(scaledata.values)
     console.log(poststartrental.values)
     console.log(poststoprental.values)
+    console.log("Station Data by daytime")
+    console.log(stationdaytime)
+    
     // need to parse each string inside the array
     for (i = 0; i < stationdata.length; i++) { 
         stationdata[i]=JSON.parse(stationdata[i])
     }
     console.log(stationdata)
     
+    //[-41.5764,174.2405,1.4453]
+    //[lat,lon,number]
+    var latlonlist = [];
+    // need to parse each string inside the array
+    for (i = 0; i < stationdaytime.length; i++) { 
+        var latloncount=[];
+        stationdaytime[i]=JSON.parse(stationdaytime[i]);
+        latloncount.push(stationdaytime[i].startstationlat);
+        latloncount.push(stationdaytime[i].startstationlon);
+        latloncount.push(stationdaytime[i].rentalcount);
+        latlonlist.push(latloncount)
+        
+    }
+    console.log("latlonlist");
+    console.log(latlonlist)
     
 
     //dataTes=[{daypart:1,count:92138},{daypart:3,count:143579},{daypart:4,count:125485},{daypart:2,count:235309},{daypart:0,count:246905}]
@@ -175,7 +211,101 @@ var chart = c3.generate({
     }
 });
 
-
+heatNew = L.heatLayer(
+	latlonlist,{
+	    max : 1000,
+            radius: 20,
+            blur: 15, 
+            maxZoom: 17,
+            /* gradient must be between 0.00 and 1.00 */
+           /* gradient: {
+                100:  '#f23e45',
+                300: 'lime',
+                500: 'yellow',
+                700: '#FF8300',
+                1000:  'red'
+            }*/
+        }).addTo(map);
+        
 
 };
+function displayHeatmap(daypartstring) {
+    // Add remove the old heatmap and add new one
+    document.getElementById("maploader").style.display = "block";
+    map.removeLayer(heatNew);
+    console.log(daypartstring);
+    url="";
+    switch(daypartstring) {
+    case "allday":
+        url = "http://python-analytics-myproject.173.230.141.17.xip.io/getstationdaytime";
+        break;
+    case "morning":
+        url = "http://python-analytics-myproject.173.230.141.17.xip.io/getstationdaytimemorning";
+        break;
+    case "lunch":
+        url = "http://python-analytics-myproject.173.230.141.17.xip.io/getstationdaytimelunch";
+        break;
+    case "afternoon":
+        url = "http://python-analytics-myproject.173.230.141.17.xip.io/getstationdaytimeafternoon";
+        break;
+    case "evening":
+        url = "http://python-analytics-myproject.173.230.141.17.xip.io/getstationdaytimeevening";
+        break;
+    case "night":
+        url = "http://python-analytics-myproject.173.230.141.17.xip.io/getstationdaytimenight";
+        break;
+    default:
+        url = "http://python-analytics-myproject.173.230.141.17.xip.io/getstationdaytime";
+    }
+    
+    d3.queue()
+    .defer(d3.json, url)
+    .await(analyzeHeatmap);
+}; 
+
+function analyzeHeatmap(error,stationdaytime) {
+    if(error) { 
+        console.log(error); 
+    }
+    console.log("Station Data by daytime")
+    console.log(stationdaytime)
+    
+ 
+    //[-41.5764,174.2405,1.4453]
+    //[lat,lon,number]
+    var latlonlist = [];
+    // need to parse each string inside the array
+    for (i = 0; i < stationdaytime.length; i++) { 
+        var latloncount=[];
+        stationdaytime[i]=JSON.parse(stationdaytime[i]);
+        latloncount.push(stationdaytime[i].startstationlat);
+        latloncount.push(stationdaytime[i].startstationlon);
+        latloncount.push(stationdaytime[i].rentalcount);
+        latlonlist.push(latloncount)
+        
+    }
+    //console.log("latlonlist");
+    //console.log(latlonlist)
+
+    // Stop the spining loader
+    document.getElementById("maploader").style.display = "none";
+    
+    heatNew = L.heatLayer(latlonlist,{
+	    max : 1000,
+            radius: 20,
+            blur: 15, 
+            maxZoom: 17,
+            /* gradient must be between 0.00 and 1.00 */
+           /* gradient: {
+                100:  '#f23e45',
+                300: 'lime',
+                500: 'yellow',
+                700: '#FF8300',
+                1000:  'red'
+            }*/
+    }).addTo(map);
+        
+
+};
+
 
