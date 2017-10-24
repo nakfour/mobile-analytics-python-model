@@ -151,12 +151,14 @@ prediection0Select=predictions0.select(col("prediction").alias("rentalcount"),co
 print("Prediction")
 print(prediection0Select)
 prediection0Select.show()
+prediection0Select.describe().show()
 
 predictions1 = modelLR.transform(testbikerentaldfSelect1)
 prediection1Select=predictions1.select(col("prediction").alias("rentalcount"),col("startstationlat").alias("startstationlat"), col("startstationlon").alias("startstationlon"))
 print("Prediction")
 print(prediection1Select)
 prediection1Select.show()
+prediection1Select.describe().show()
 
 predictions2 = modelLR.transform(testbikerentaldfSelect2)
 prediection2Select=predictions2.select(col("prediction").alias("rentalcount"),col("startstationlat").alias("startstationlat"), col("startstationlon").alias("startstationlon"))
