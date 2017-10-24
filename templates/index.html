@@ -21,7 +21,15 @@
 	<script>
     Holder.add_theme("white", { background:"#fff", foreground:"#a7a7a7", size:10 });
   </script>
-
+	<!-- Mapping Related -->
+	<link
+			rel="stylesheet"
+			href="http://cdn.leafletjs.com/leaflet-0.7/leaflet.css"
+	/>
+	<script
+			src="http://cdn.leafletjs.com/leaflet-0.7/leaflet.js">
+	</script>
+	<script src="{{url_for('static', filename='js/leaflet-heat.js')}}"></script>
 
 
 
