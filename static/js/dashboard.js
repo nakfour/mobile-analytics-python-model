@@ -213,7 +213,8 @@ var chart = c3.generate({
 
 heatNew = L.heatLayer(
 	latlonlist,{
-	    max : 1000,
+	    //max : 1000,
+	    max : 18,
             radius: 20,
             blur: 15, 
             maxZoom: 17,
@@ -291,7 +292,8 @@ function analyzeHeatmap(error,stationdaytime) {
     document.getElementById("maploader").style.display = "none";
     
     heatNew = L.heatLayer(latlonlist,{
-	    max : 1000,
+	    //max : 1000,
+	    max : 18,
             radius: 20,
             blur: 15, 
             maxZoom: 17,
