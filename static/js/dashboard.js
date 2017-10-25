@@ -61,6 +61,8 @@ var mapLink = '<a href="http://openstreetmap.org">OpenStreetMap</a>';
             maxZoom: 18,
         }).addTo(map);
 var heatNew = null;
+// TODO: This value should be calculated from the data
+var maxCount=0;
         
         
   
@@ -236,27 +238,36 @@ function displayHeatmap(daypartstring) {
     map.removeLayer(heatNew);
     console.log(daypartstring);
     url="";
+    
     switch(daypartstring) {
     case "allday":
         url = "http://python-analytics-myproject.173.230.141.17.xip.io/getstationdaytime";
+        // TODO: This value should be gathered from the data.
+        maxCount=18;
         break;
     case "morning":
         url = "http://python-analytics-myproject.173.230.141.17.xip.io/getstationdaytimemorning";
+        maxCount=3;
         break;
     case "lunch":
         url = "http://python-analytics-myproject.173.230.141.17.xip.io/getstationdaytimelunch";
+        maxCount=3;
         break;
     case "afternoon":
         url = "http://python-analytics-myproject.173.230.141.17.xip.io/getstationdaytimeafternoon";
+        maxCount=3;
         break;
     case "evening":
         url = "http://python-analytics-myproject.173.230.141.17.xip.io/getstationdaytimeevening";
+        maxCount=3;
         break;
     case "night":
         url = "http://python-analytics-myproject.173.230.141.17.xip.io/getstationdaytimenight";
+        maxCount=3;
         break;
     default:
         url = "http://python-analytics-myproject.173.230.141.17.xip.io/getstationdaytime";
+        maxCount=18;
     }
     
     d3.queue()
@@ -293,7 +304,7 @@ function analyzeHeatmap(error,stationdaytime) {
     
     heatNew = L.heatLayer(latlonlist,{
 	    //max : 1000,
-	    max : 18,
+	    max : maxCount,
             radius: 20,
             blur: 15, 
             maxZoom: 17,
