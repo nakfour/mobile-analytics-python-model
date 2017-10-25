@@ -279,8 +279,10 @@ function analyzeHeatmap(error,stationdaytime) {
     if(error) { 
         console.log(error); 
     }
-    console.log("Station Data by daytime")
-    console.log(stationdaytime)
+    console.log("Station Data by daytime");
+    console.log(stationdaytime);
+    console.log("Maximum count");
+    console.log(maxCount);
     
  
     //[-41.5764,174.2405,1.4453]
