@@ -1,3 +1,8 @@
+#heatMap {
+    background-image: url("{{url_for('static', filename='images/iphone5p.png')}}");
+    height: 445px;
+    width: 840px;
+}
 #maploader {
   border: 5px solid #f3f3f3;
   border-radius: 50%;
