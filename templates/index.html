@@ -99,9 +99,9 @@
 					Mobile Heat Map
 				</div>
 				<div class="chart-stage" id="mobileheatmapchart">
-					<div class="heatmap" style="position: relative;">
+					<div id='heatMap'>
 
-						<canvas class="heatmap-canvas" width="834" height="400" style="position: absolute; left: 0px; top: 0px;"></canvas>
+
 					</div>
 
 				</div>
@@ -170,7 +170,7 @@
         // minimal heatmap instance configuration
 var heatmapInstance = h337.create({
   // only container is required, the rest will be defaults
-  container: document.querySelector('.heatmap')
+  container: document.getElementById('heatMap');
 });
 
 // now generate some random data
