@@ -64,9 +64,12 @@
 			<div class="chart-wrapper">
 				<div class="chart-title">
 					API Hits Data Chart
-					<div id="heatmapContainer">
-						<canvas class="heatmap-canvas" width="834" height="400" style="position: absolute; left: 0px; top: 0px;"></canvas>
-					</div>
+
+
+				</div>
+				<div class="heatmap" style="position: relative;">
+
+					<canvas class="heatmap-canvas" width="834" height="400" style="position: absolute; left: 0px; top: 0px;"></canvas>
 				</div>
 				<div class="chart-stage" id="scalechart">
 					<div id="grid-1-1">
@@ -146,19 +149,37 @@
 <script>
       window.onload = function() {
       console.log("On Windowwwwwww");
-        // create a heatmap instance
-        var heatmap = h337.create({
-          container: document.getElementById('heatmapContainer'),
-          maxOpacity: .6,
-          radius: 50,
-          blur: .90,
-          // backgroundColor with alpha so you can see through it
-          backgroundColor: 'rgba(0, 0, 58, 0.96)'
-        });
-        heatmap.setData({
-  			max: 5,
-  			data: [{ x: 10, y: 15, value: 5},{ x: 11, y: 16, value: 5},{ x: 12, y: 17, value: 5}]
-		});
+        // minimal heatmap instance configuration
+var heatmapInstance = h337.create({
+  // only container is required, the rest will be defaults
+  container: document.querySelector('.heatmap')
+});
+
+// now generate some random data
+var points = [];
+var max = 0;
+var width = 840;
+var height = 400;
+var len = 200;
+
+while (len--) {
+  var val = Math.floor(Math.random()*100);
+  max = Math.max(max, val);
+  var point = {
+    x: Math.floor(Math.random()*width),
+    y: Math.floor(Math.random()*height),
+    value: val
+  };
+  points.push(point);
+}
+// heatmap data format
+var data = {
+  max: max,
+  data: points
+};
+// if you have a set of datapoints always use setData instead of addData
+// for data initialization
+heatmapInstance.setData(data);
       };
     </script>
 </body>
