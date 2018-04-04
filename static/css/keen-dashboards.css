@@ -1,5 +1,6 @@
 #heatMap {
-    background-image: url("{{url_for('static', filename='images/iphone5p.png')}}");
+    /*background-image: url("{{url_for('static', filename='images/iphone5p.png')}}");*/
+    background-image: url(../images/iphone5p.png);
     height: 445px;
     width: 840px;
 }
