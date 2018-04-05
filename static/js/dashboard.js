@@ -229,6 +229,56 @@ heatNew = L.heatLayer(
                 1000:  'red'
             }*/
         }).addTo(map);
+
+        /************************************************** Mobile Display Heatmap *******************************/
+                console.log("Starting Mobile HeatMap Display Processing");
+
+                var heatmapInstance = h337.create({
+                  container: document.getElementById('heatMap')
+                });
+
+                // now generate some random data
+                var points = [];
+                var max = 0;
+                var width = 255;
+                var height = 453;
+
+                  var point = {
+                    x: 16,
+                    y: 461,
+                    value: 10
+                  };
+                  points.push(point);
+
+                  var point1 = {
+                    x: 10,
+                    y: 450,
+                    value: 10
+                  };
+                  points.push(point1);
+
+                  var point2 = {
+                    x: 402,
+                    y: 70,
+                    value: 10
+                  };
+                 // points.push(point2);
+
+                  var point3 = {
+                    x: 410,
+                    y: 80,
+                    value: 10
+                  };
+                  //points.push(point3);
+
+                // heatmap data format
+                var data = {
+                  max: max,
+                  data: points
+                };
+
+                heatmapInstance.setData(data);
+                /************************************************** Mobile Display Heatmap *******************************/
         
 
 };
