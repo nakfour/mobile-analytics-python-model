@@ -56,13 +56,6 @@ spark = SparkSession.builder.appName("mobileanalytics").config("spark.mongodb.in
 #spark.stop()
 
 
-################### Reading Touch data from database ########################
-print("Reading Spark Touch Data");
-touchdata = spark.read.format("com.mongodb.spark.sql.DefaultSource").option("uri","mongodb://admin:admin@mongodb/sampledb.touchdata").load()
-print(touchdata.show())
-touchdata.printSchema()
-
-
 ######## Predictive Analysis ##################
 # We do this once on load of container at this time. It can be adapted to be dynamic later on ########
 # 2013-07-01
@@ -259,6 +252,19 @@ def mobiledataRoute():
     print(json_results)
     return json_results
     
+@app.route("/gettouchdata")
+def touchData():
+    print("Serving Touch Data")
+    ################### Reading Touch data from database ########################
+    print("Reading Spark Touch Data");
+    touchdata = spark.read.format("com.mongodb.spark.sql.DefaultSource").option("uri","mongodb://admin:admin@mongodb/sampledb.touchdata").load()
+    print(touchdata.show())
+    touchdata.printSchema()
+    resultlist=touchdata.toJSON().collect()
+    print(resultlist)
+    json_results = json.dumps(resultlist)
+    print(json_results)
+    return json_results   
 
 #.defer(d3.json, "inserturl&metric_name=hits&since=2017-07-01&period=year&granularity=month&skip_change=true")  
 # had to do it this way because CORS is not enabled by s-scale by default
@@ -348,8 +354,7 @@ def trainRoute():
     print("Training data")
     # Read Data from database
     #mongoClient = MongoClient('mongodb://admin:admin@mongodb/sampledb')
-    # run learning on apache spark
-    
+    # run learning on apache spark  
     return null
 
 ####### Allowing access-control
