@@ -238,15 +238,19 @@ function analyze(error, stationdata, mobiledata, scaledata, poststartrental, pos
     var points = [];
     for (i = 0; i < touchdata.length; i++) {
             touchdata[i]=JSON.parse(touchdata[i]);
+            var scaledx= touchdata[i].x *0.65;
+            var scaledy= touchdata[i].y *0.65;
+
             var point = {
-                x: touchdata[i].x,
-                y: touchdata[i].y,
+                x: scaledx,
+                y: scaledy,
                 value: 10
             };
             points.push(point);
 
     }
     console.log("Starting Mobile HeatMap Display Processing");
+    console.log(points);
 
     var heatmapInstance = h337.create({
             container: document.getElementById('heatMap')
