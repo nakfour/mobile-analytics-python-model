@@ -51,9 +51,18 @@ def assign_tod(hr):
 print("Start")
 #on openshift
 spark = SparkSession.builder.appName("mobileanalytics").config("spark.mongodb.input.uri", "mongodb://admin:admin@mongodb/sampledb.bikerental").config("spark.mongodb.output.uri", "mongodb://admin:admin@mongodb/sampledb.bikerental").getOrCreate()
+sparkTouch = SparkSession.builder.appName("mobileanalytics").config("spark.mongodb.input.uri", "mongodb://admin:admin@mongodb/sampledb.touchdata").config("spark.mongodb.output.uri", "mongodb://admin:admin@mongodb/sampledb.bikerental").getOrCreate()
 #local
 #spark = SparkSession.builder.master("local").appName("mobileanalytics").config("spark.driver.bindAddress", "127.0.0.1").config("spark.mongodb.input.uri", "mongodb://127.0.0.1/sampledb.bikerental").config("spark.mongodb.output.uri", "mongodb://127.0.0.1/sampledb.bikerental").getOrCreate()
 #spark.stop()
+
+
+################### Reading Touch data from database ########################
+print("Reading Spark Touch Data");
+touchdata = sparkTouch.read.format("com.mongodb.spark.sql.DefaultSource").load()
+print(touchdata.show())
+touchdata.printSchema()
+
 
 ######## Predictive Analysis ##################
 # We do this once on load of container at this time. It can be adapted to be dynamic later on ########
