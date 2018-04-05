@@ -51,17 +51,16 @@ def assign_tod(hr):
 print("Start")
 #on openshift
 spark = SparkSession.builder.appName("mobileanalytics").config("spark.mongodb.input.uri", "mongodb://admin:admin@mongodb/sampledb.bikerental").config("spark.mongodb.output.uri", "mongodb://admin:admin@mongodb/sampledb.bikerental").getOrCreate()
-#sparkTouch = SparkSession.builder.appName("mobileanalytics").config("spark.mongodb.input.uri", "mongodb://admin:admin@mongodb/sampledb.touchdata").config("spark.mongodb.output.uri", "mongodb://admin:admin@mongodb/sampledb.bikerental").getOrCreate()
-#local
+
 #spark = SparkSession.builder.master("local").appName("mobileanalytics").config("spark.driver.bindAddress", "127.0.0.1").config("spark.mongodb.input.uri", "mongodb://127.0.0.1/sampledb.bikerental").config("spark.mongodb.output.uri", "mongodb://127.0.0.1/sampledb.bikerental").getOrCreate()
 #spark.stop()
 
 
 ################### Reading Touch data from database ########################
-#print("Reading Spark Touch Data");
-#touchdata = sparkTouch.read.format("com.mongodb.spark.sql.DefaultSource").load()
-#print(touchdata.show())
-#touchdata.printSchema()
+print("Reading Spark Touch Data");
+touchdata = spark.read.format("com.mongodb.spark.sql.DefaultSource").option("uri","mongodb://admin:admin@mongodb/sampledb.touchdata").load()
+print(touchdata.show())
+touchdata.printSchema()
 
 
 ######## Predictive Analysis ##################
@@ -219,7 +218,7 @@ def getDayStats():
     return resultlist
     
 def getMobileOsStats():
-    print("Getting Day stats")
+    print("Getting Mobile OS stats")
     df = spark.read.format("com.mongodb.spark.sql.DefaultSource").load()
     print("posting df")
     df.printSchema()
