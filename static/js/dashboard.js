@@ -74,28 +74,30 @@ d3.queue()
   .defer(d3.json, "http://python-analytics-myproject.173.230.141.17.xip.io/getpoststartrental")
   .defer(d3.json, "http://python-analytics-myproject.173.230.141.17.xip.io/getpoststoprental")
   .defer(d3.json, "http://python-analytics-myproject.173.230.141.17.xip.io/getstationdaytime")
+  .defer(d3.json, "http://python-analytics-myproject.173.230.141.17.xip.io/gettouchdata")
   .await(analyze);
 
 //d3.json("http://localhost:8080/getstationstats", function(data) {
-function analyze(error, stationdata, mobiledata, scaledata, poststartrental, poststoprental,stationdaytime) {
+function analyze(error, stationdata, mobiledata, scaledata, poststartrental, poststoprental,stationdaytime, touchdata) {
     //stopping page loader
     document.getElementById("pageloader").style.display = "none";
     if(error) { 
         console.log(error); 
     }
-    console.log(stationdata)
-    console.log(mobiledata)
-    console.log(scaledata.values)
-    console.log(poststartrental.values)
-    console.log(poststoprental.values)
-    console.log("Station Data by daytime")
-    console.log(stationdaytime)
+    console.log(stationdata);
+    console.log(mobiledata);
+    console.log(scaledata.values);
+    console.log(poststartrental.values);
+    console.log(poststoprental.values);
+    console.log("Station Data by daytime");
+    console.log(stationdaytime);
+    console.log(touchdata);
     
     // need to parse each string inside the array
     for (i = 0; i < stationdata.length; i++) { 
-        stationdata[i]=JSON.parse(stationdata[i])
+        stationdata[i]=JSON.parse(stationdata[i]);
     }
-    console.log(stationdata)
+    console.log(stationdata);
     
     //[-41.5764,174.2405,1.4453]
     //[lat,lon,number]
@@ -187,36 +189,36 @@ function analyze(error, stationdata, mobiledata, scaledata, poststartrental, pos
    
 
 
-var chart = c3.generate({
-    bindto: '#scalechart',
-    size: {
-        height: 160,
-        width: 600
-    },
-    data: {
-        x: 'x',
+    var chart = c3.generate({
+        bindto: '#scalechart',
+        size: {
+            height: 160,
+            width: 600
+        },
+        data: {
+            x: 'x',
 //        xFormat: '%Y%m%d', // 'xFormat' can be used as custom format of 'x'
-        columns: [
-            ['x', '2017-07-01', '2017-08-01', '2017-09-01', '2017-10-01', '2017-11-01', '2017-12-01', '2018-01-01', '2018-02-01', '2018-03-01', '2018-04-01' , '2018-05-01', '2018-06-01'],
-            scaledata.values,
-            poststartrental.values,
-            poststoprental.values
-        ]
-    },
-    axis: {
-        x: {
-            type: 'timeseries',
-            tick: {
-                format: '%Y-%m-%d'
+            columns: [
+                ['x', '2017-07-01', '2017-08-01', '2017-09-01', '2017-10-01', '2017-11-01', '2017-12-01', '2018-01-01', '2018-02-01', '2018-03-01', '2018-04-01' , '2018-05-01', '2018-06-01'],
+                scaledata.values,
+                poststartrental.values,
+                poststoprental.values
+            ]
+        },
+        axis: {
+            x: {
+                type: 'timeseries',
+                tick: {
+                    format: '%Y-%m-%d'
+                }
             }
         }
-    }
-});
+    });
 
-heatNew = L.heatLayer(
-	latlonlist,{
-	    //max : 1000,
-	    max : 18,
+    heatNew = L.heatLayer(
+	    latlonlist,{
+	        //max : 1000,
+	        max : 18,
             radius: 20,
             blur: 15, 
             maxZoom: 17,
@@ -230,17 +232,30 @@ heatNew = L.heatLayer(
             }*/
         }).addTo(map);
 
-        /************************************************** Mobile Display Heatmap *******************************/
-                console.log("Starting Mobile HeatMap Display Processing");
+    /************************************************** Mobile Display Heatmap *******************************/
+    // need to parse each string inside the array
+    var touchcount = {};
+    var points = [];
+    for (i = 0; i < touchdata.length; i++) {
+            touchdata[i]=JSON.parse(touchdata[i]);
+            var point = {
+                x: touchdata[i].x,
+                y: touchdata[i].y,
+                value: 10
+            };
+            points.push(point);
 
-                var heatmapInstance = h337.create({
-                  container: document.getElementById('heatMap')
-                });
+    }
+    console.log("Starting Mobile HeatMap Display Processing");
+
+    var heatmapInstance = h337.create({
+            container: document.getElementById('heatMap')
+    });
 
                 // now generate some random data
-                var points = [];
-                var max = 0;
-                var width = 255;
+                //var points = [];
+    var max = 0;
+                /*var width = 255;
                 var height = 453;
 
                   var point = {
@@ -269,16 +284,16 @@ heatNew = L.heatLayer(
                     y: 80,
                     value: 10
                   };
-                  //points.push(point3);
+                  //points.push(point3);*/
 
                 // heatmap data format
-                var data = {
-                  max: max,
-                  data: points
-                };
+    var data = {
+         max: max,
+         data: points
+    };
 
-                heatmapInstance.setData(data);
-                /************************************************** Mobile Display Heatmap *******************************/
+    heatmapInstance.setData(data);
+    /************************************************** Mobile Display Heatmap *******************************/
         
 
 };
