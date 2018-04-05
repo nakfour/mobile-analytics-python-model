@@ -238,8 +238,8 @@ function analyze(error, stationdata, mobiledata, scaledata, poststartrental, pos
     var points = [];
     for (i = 0; i < touchdata.length; i++) {
             touchdata[i]=JSON.parse(touchdata[i]);
-            var scaledx= touchdata[i].x *0.65;
-            var scaledy= touchdata[i].y *0.65;
+            var scaledx= Math.round(touchdata[i].x *0.65);
+            var scaledy= Math.round(touchdata[i].y *0.65);
 
             var point = {
                 x: scaledx,
