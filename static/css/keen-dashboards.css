@@ -3,6 +3,8 @@
     background-image: url(../images/bikerentalapp.jpg);
     height: 453px;
     width: 255px;
+    left: 190px;
+
 }
 #maploader {
   border: 5px solid #f3f3f3;
