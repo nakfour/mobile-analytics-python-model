@@ -63,9 +63,18 @@
 }
 
 .selectmenu {
-    margin:20px;
+    background-color:green;
+    color:white;
+    border-color:transparent;
+
 }
 
+.clearbutton {
+    margin:20px;
+    left:175px;
+    position: relative;
+    display: inline-block;
+}
 .dropdown {
     padding:10px;
     float: center;
