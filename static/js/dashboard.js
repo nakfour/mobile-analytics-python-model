@@ -301,6 +301,10 @@ function analyze(error, stationdata, mobiledata, scaledata, poststartrental, pos
         
 
 };
+function clearHeatmap() {
+    console.log("Clearing Touch Heatmap database");
+    
+};
 function displayHeatmap(daypartstring) {
     // Add remove the old heatmap and add new one
     document.getElementById("maploader").style.display = "block";
