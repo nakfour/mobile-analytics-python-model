@@ -303,6 +303,12 @@ function analyze(error, stationdata, mobiledata, scaledata, poststartrental, pos
 };
 function clearHeatmap() {
     console.log("Clearing Touch Heatmap database");
+    var data = {
+             max: max,
+             data: null
+        };
+
+        heatmapInstance.setData(data);
 
 };
 function displayHeatmap(daypartstring) {
