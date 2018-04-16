@@ -5,6 +5,7 @@
 	<title>Bike Rental Data Analytics</title>
 	<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no' />
 	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/c3.css')}}">
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 	<!-- Dashboard -->
 	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/keen-dashboards.css')}}">
 	<!-- Load d3.js and c3.js -->
@@ -116,8 +117,8 @@
 					Mobile Heat Map
 				</div>
 				<div  id="mobileheatmapchart">
-					<div>
-						<button onclick="clearHeatmap()">Clear</button>
+					<div class="clearbutton">
+						<button class="w3-btn w3-ripple w3-blue" onclick="clearHeatmap()">Clear</button>
 					</div>
 					<div id='heatMap'>
 
@@ -140,7 +141,7 @@
 				</div>
 				<div class="dropdown">
 
-					<select onchange="displayHeatmap(this.value)">
+					<select class="selectmenu" onchange="displayHeatmap(this.value)">
 						<option value="allday">All Day</option>
 						<option value="morning">Morning(LR)</option>
 						<option value="lunch">Lunch(LR)</option>
