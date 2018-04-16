@@ -61,6 +61,7 @@ var mapLink = '<a href="http://openstreetmap.org">OpenStreetMap</a>';
             maxZoom: 18,
         }).addTo(map);
 var heatNew = null;
+var heatmapInstance = null;
 // TODO: This value should be calculated from the data
 var maxCount=0;
         
@@ -252,7 +253,7 @@ function analyze(error, stationdata, mobiledata, scaledata, poststartrental, pos
     console.log("Starting Mobile HeatMap Display Processing");
     console.log(points);
 
-    var heatmapInstance = h337.create({
+    heatmapInstance = h337.create({
             container: document.getElementById('heatMap')
     });
 
@@ -304,7 +305,7 @@ function analyze(error, stationdata, mobiledata, scaledata, poststartrental, pos
 function clearHeatmap() {
     console.log("Clearing Touch Heatmap database");
     var data = {
-             max: max,
+             max: 0,
              data: null
         };
 
