@@ -69,13 +69,13 @@ var maxCount=0;
   
 // In production these urls should be the production DNS name
 d3.queue()
-  .defer(d3.json, "http://inserturl/getstationstats")
-  .defer(d3.json, "http://inserturl/getmobileosstats")
-  .defer(d3.json, "http://inserturl/gethits")
-  .defer(d3.json, "http://inserturl/getpoststartrental")
-  .defer(d3.json, "http://inserturl/getpoststoprental")
-  .defer(d3.json, "http://inserturl/getstationdaytime")
-  .defer(d3.json, "http://inserturl/gettouchdata")
+  .defer(d3.json, "http://python-analytics-myproject.173.230.141.17.xip.io/getstationstats")
+  .defer(d3.json, "http://python-analytics-myproject.173.230.141.17.xip.io/getmobileosstats")
+  .defer(d3.json, "http://python-analytics-myproject.173.230.141.17.xip.io/gethits")
+  .defer(d3.json, "http://python-analytics-myproject.173.230.141.17.xip.io/getpoststartrental")
+  .defer(d3.json, "http://python-analytics-myproject.173.230.141.17.xip.io/getpoststoprental")
+  .defer(d3.json, "http://python-analytics-myproject.173.230.141.17.xip.io/getstationdaytime")
+  .defer(d3.json, "http://python-analytics-myproject.173.230.141.17.xip.io/gettouchdata")
   .await(analyze);
 
 //d3.json("http://localhost:8080/getstationstats", function(data) {
@@ -308,11 +308,28 @@ function clearHeatmap() {
     var data = {
              max: 0,
              data: []
-        };
+    };
 
-        heatmapInstance.setData(data);
+    heatmapInstance.setData(data);
+    // Send a request to delete all entries in touch database
+    url="http://node-server-myproject.173.230.141.17.xip.io/touchdeleteall";
+    d3.queue()
+        .defer(d3.json, url)
+        .await(touchDeleteResponse);
 
 };
+
+function touchDeleteResponse (error,result) {
+     if(error) {
+        console.log(error);
+     }
+     else
+     {
+        console.log(result);
+     }
+
+};
+
 function displayHeatmap(daypartstring) {
     // Add remove the old heatmap and add new one
     document.getElementById("maploader").style.display = "block";
@@ -322,32 +339,32 @@ function displayHeatmap(daypartstring) {
     
     switch(daypartstring) {
     case "allday":
-        url = "http://inserturl/getstationdaytime";
+        url = "http://python-analytics-myproject.173.230.141.17.xip.io/getstationdaytime";
         // TODO: This value should be gathered from the data.
         maxCount=18;
         break;
     case "morning":
-        url = "http://inserturl/getstationdaytimemorning";
+        url = "http://python-analytics-myproject.173.230.141.17.xip.io/getstationdaytimemorning";
         maxCount=3;
         break;
     case "lunch":
-        url = "http://inserturl/getstationdaytimelunch";
+        url = "http://python-analytics-myproject.173.230.141.17.xip.io/getstationdaytimelunch";
         maxCount=3;
         break;
     case "afternoon":
-        url = "http://inserturl/getstationdaytimeafternoon";
+        url = "http://python-analytics-myproject.173.230.141.17.xip.io/getstationdaytimeafternoon";
         maxCount=3;
         break;
     case "evening":
-        url = "http://inserturl/getstationdaytimeevening";
+        url = "http://python-analytics-myproject.173.230.141.17.xip.io/getstationdaytimeevening";
         maxCount=3;
         break;
     case "night":
-        url = "http://inserturl/getstationdaytimenight";
+        url = "http://python-analytics-myproject.173.230.141.17.xip.io/getstationdaytimenight";
         maxCount=3;
         break;
     default:
-        url = "http://inserturl/getstationdaytime";
+        url = "http://python-analytics-myproject.173.230.141.17.xip.io/getstationdaytime";
         maxCount=18;
     }
     
