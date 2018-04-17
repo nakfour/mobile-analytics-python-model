@@ -308,11 +308,28 @@ function clearHeatmap() {
     var data = {
              max: 0,
              data: []
-        };
+    };
 
-        heatmapInstance.setData(data);
+    heatmapInstance.setData(data);
+    // Send a request to delete all entries in touch database
+    url="http://node-server-myproject.173.230.141.17.xip.io/touchdeleteall";
+    d3.queue()
+        .defer(d3.json, url)
+        .await(touchDeleteResponse);
 
 };
+
+function touchDeleteResponse (error,result) {
+     if(error) {
+        console.log(error);
+     }
+     else
+     {
+        console.log(result);
+     }
+
+};
+
 function displayHeatmap(daypartstring) {
     // Add remove the old heatmap and add new one
     document.getElementById("maploader").style.display = "block";
