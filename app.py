@@ -266,12 +266,12 @@ def touchData():
     print(json_results)
     return json_results   
 
-#.defer(d3.json, "inserturl&metric_name=hits&since=2017-07-01&period=year&granularity=month&skip_change=true")  
+#.defer(d3.json, "<Insert-url>&metric_name=hits&since=2017-07-01&period=year&granularity=month&skip_change=true")  
 # had to do it this way because CORS is not enabled by s-scale by default
 @app.route("/gethits")
 def hitsRoute():
     print("Getting 3-scale hits")
-    response=requests.get("inserturl&metric_name=hits&since=2017-07-01&period=year&granularity=month&skip_change=true")
+    response=requests.get("<Insert-url>&metric_name=hits&since=2017-07-01&period=year&granularity=month&skip_change=true")
     print(response.status_code)
     print(response.headers)
     print(response.content)
@@ -280,7 +280,7 @@ def hitsRoute():
 @app.route("/getpoststartrental")
 def startRentalRoute():
     print("Getting 3-scale startrental")
-    response=requests.get("inserturl&metric_name=poststartrental&since=2017-07-01&period=year&granularity=month&skip_change=true")
+    response=requests.get("<Insert-url>&metric_name=poststartrental&since=2017-07-01&period=year&granularity=month&skip_change=true")
     print(response.status_code)
     print(response.headers)
     print(response.content)
@@ -289,7 +289,7 @@ def startRentalRoute():
 @app.route("/getpoststoprental")
 def stopRentalRoute():
     print("Getting 3-scale stoprental")
-    response=requests.get("inserturl&metric_name=poststoprental&since=2017-07-01&period=year&granularity=month&skip_change=true")
+    response=requests.get("<Insert-url>&metric_name=poststoprental&since=2017-07-01&period=year&granularity=month&skip_change=true")
     print(response.status_code)
     print(response.headers)
     print(response.content)
