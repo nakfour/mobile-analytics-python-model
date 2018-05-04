@@ -1,51 +1,4 @@
-// 3scale curl -v  -X GET "https://nakfour-admin.3scale.net/stats/applications/1409615589398/usage.json?access_token=99f0d9bfef10344295423f3d1666d7249b3753ed0ed5cd083e22b702c12777f7&metric_name=hits&since=2017-08-01&period=year&granularity=month&skip_change=true"
-// For a specific api call
-//https://nakfour-admin.3scale.net/stats/applications/1409615589398/usage.json?access_token=99f0d9bfef10344295423f3d1666d7249b3753ed0ed5cd083e22b702c12777f7&metric_name=poststartrental&since=2017-08-01&period=year&granularity=month&skip_change=true"
-// Response body from 3scale
-/*{
- "metric": {
-  "id": 2555418041241,
-  "name": "Hits",
-  "system_name": "hits",
-  "unit": "hit"
- },
- "period": {
-  "name": "year",
-  "since": "2017-08-01T00:00:00Z",
-  "until": "2018-07-31T23:59:59Z",
-  "timezone": "Etc/UTC",
-  "granularity": "month"
- },
- "total": 750,
- "values": [
-  136,
-  614,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0
- ],
- "application": {
-  "id": 1409615589398,
-  "name": "Red Hat 2's App",
-  "state": "live",
-  "description": "Default application created on signup.",
-  "plan": {
-   "id": 2357355906144,
-   "name": "radanalytics-mobile-plan"
-  },
-  "account": {
-   "id": 2445582071771,
-   "name": "Red Hat 2"
-  }
- }
-}*/
+
 console.log("Starting queue")
 // making sure spinner for map data is off
 console.log("Stopping map loader");
@@ -69,13 +22,13 @@ var maxCount=0;
   
 // In production these urls should be the production DNS name
 d3.queue()
-  .defer(d3.json, "http://python-analytics-myproject.173.230.141.17.xip.io/getstationstats")
-  .defer(d3.json, "http://python-analytics-myproject.173.230.141.17.xip.io/getmobileosstats")
-  .defer(d3.json, "http://python-analytics-myproject.173.230.141.17.xip.io/gethits")
-  .defer(d3.json, "http://python-analytics-myproject.173.230.141.17.xip.io/getpoststartrental")
-  .defer(d3.json, "http://python-analytics-myproject.173.230.141.17.xip.io/getpoststoprental")
-  .defer(d3.json, "http://python-analytics-myproject.173.230.141.17.xip.io/getstationdaytime")
-  .defer(d3.json, "http://python-analytics-myproject.173.230.141.17.xip.io/gettouchdata")
+  .defer(d3.json, "<Insert-url>/getstationstats")
+  .defer(d3.json, "<Insert-url>/getmobileosstats")
+  .defer(d3.json, "<Insert-url>/gethits")
+  .defer(d3.json, "<Insert-url>/getpoststartrental")
+  .defer(d3.json, "<Insert-url>/getpoststoprental")
+  .defer(d3.json, "<Insert-url>/getstationdaytime")
+  .defer(d3.json, "<Insert-url>/gettouchdata")
   .await(analyze);
 
 //d3.json("http://localhost:8080/getstationstats", function(data) {
@@ -312,7 +265,7 @@ function clearHeatmap() {
 
     heatmapInstance.setData(data);
     // Send a request to delete all entries in touch database
-    url="http://node-server-myproject.173.230.141.17.xip.io/touchdeleteall";
+    url="<Insert-url>/touchdeleteall";
     d3.queue()
         .defer(d3.json, url)
         .await(touchDeleteResponse);
@@ -339,32 +292,32 @@ function displayHeatmap(daypartstring) {
     
     switch(daypartstring) {
     case "allday":
-        url = "http://python-analytics-myproject.173.230.141.17.xip.io/getstationdaytime";
+        url = "<Insert-url>/getstationdaytime";
         // TODO: This value should be gathered from the data.
         maxCount=18;
         break;
     case "morning":
-        url = "http://python-analytics-myproject.173.230.141.17.xip.io/getstationdaytimemorning";
+        url = "<Insert-url>/getstationdaytimemorning";
         maxCount=3;
         break;
     case "lunch":
-        url = "http://python-analytics-myproject.173.230.141.17.xip.io/getstationdaytimelunch";
+        url = "<Insert-url>/getstationdaytimelunch";
         maxCount=3;
         break;
     case "afternoon":
-        url = "http://python-analytics-myproject.173.230.141.17.xip.io/getstationdaytimeafternoon";
+        url = "<Insert-url>/getstationdaytimeafternoon";
         maxCount=3;
         break;
     case "evening":
-        url = "http://python-analytics-myproject.173.230.141.17.xip.io/getstationdaytimeevening";
+        url = "<Insert-url>/getstationdaytimeevening";
         maxCount=3;
         break;
     case "night":
-        url = "http://python-analytics-myproject.173.230.141.17.xip.io/getstationdaytimenight";
+        url = "<Insert-url>/getstationdaytimenight";
         maxCount=3;
         break;
     default:
-        url = "http://python-analytics-myproject.173.230.141.17.xip.io/getstationdaytime";
+        url = "<Insert-url>/getstationdaytime";
         maxCount=18;
     }
     
