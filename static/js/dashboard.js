@@ -32,6 +32,7 @@ d3.queue()
   .await(analyze);
 
 
+
 function analyze(error, stationdata, mobiledata, scaledata, poststartrental, poststoprental,stationdaytime, touchdata) {
     //stopping page loader
     document.getElementById("pageloader").style.display = "none";
@@ -144,6 +145,7 @@ function analyze(error, stationdata, mobiledata, scaledata, poststartrental, pos
         },
         data: {
             x: 'x',
+
             columns: [
                 ['x', '2017-07-01', '2017-08-01', '2017-09-01', '2017-10-01', '2017-11-01', '2017-12-01', '2018-01-01', '2018-02-01', '2018-03-01', '2018-04-01' , '2018-05-01', '2018-06-01'],
                 scaledata.values,
@@ -202,10 +204,12 @@ function analyze(error, stationdata, mobiledata, scaledata, poststartrental, pos
             container: document.getElementById('heatMap')
     });
 
+<<
 
     var max = 0;
 
     // heatmap data format
+
     var data = {
          max: max,
          data: points
