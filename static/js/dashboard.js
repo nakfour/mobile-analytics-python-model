@@ -31,7 +31,7 @@ d3.queue()
   .defer(d3.json, "<Insert-url>/gettouchdata")
   .await(analyze);
 
-//d3.json("http://localhost:8080/getstationstats", function(data) {
+
 function analyze(error, stationdata, mobiledata, scaledata, poststartrental, poststoprental,stationdaytime, touchdata) {
     //stopping page loader
     document.getElementById("pageloader").style.display = "none";
@@ -122,14 +122,7 @@ function analyze(error, stationdata, mobiledata, scaledata, poststartrental, pos
         }    ,
             type: 'pie'
         },
-        /*axis: {
-            x: {
-                type: 'category'
-            }
-        },
-        legend: {
-            show:false
-        }*/
+
     });
     
     // 3-Scale hits data
@@ -151,7 +144,6 @@ function analyze(error, stationdata, mobiledata, scaledata, poststartrental, pos
         },
         data: {
             x: 'x',
-//        xFormat: '%Y%m%d', // 'xFormat' can be used as custom format of 'x'
             columns: [
                 ['x', '2017-07-01', '2017-08-01', '2017-09-01', '2017-10-01', '2017-11-01', '2017-12-01', '2018-01-01', '2018-02-01', '2018-03-01', '2018-04-01' , '2018-05-01', '2018-06-01'],
                 scaledata.values,
@@ -210,41 +202,10 @@ function analyze(error, stationdata, mobiledata, scaledata, poststartrental, pos
             container: document.getElementById('heatMap')
     });
 
-                // now generate some random data
-                //var points = [];
+
     var max = 0;
-                /*var width = 255;
-                var height = 453;
 
-                  var point = {
-                    x: 16,
-                    y: 461,
-                    value: 10
-                  };
-                  points.push(point);
-
-                  var point1 = {
-                    x: 10,
-                    y: 450,
-                    value: 10
-                  };
-                  points.push(point1);
-
-                  var point2 = {
-                    x: 402,
-                    y: 70,
-                    value: 10
-                  };
-                 // points.push(point2);
-
-                  var point3 = {
-                    x: 410,
-                    y: 80,
-                    value: 10
-                  };
-                  //points.push(point3);*/
-
-                // heatmap data format
+    // heatmap data format
     var data = {
          max: max,
          data: points
